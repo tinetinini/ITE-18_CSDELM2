@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Program{
+  id     Int    @id @default(autoincrement())
+  name   String
+  students Student[]
+}
+
+model Student {
+  id     Int    @id @default(autoincrement())
+  name   String
+  programId Int
+  program   Program @relation(fields:[programId], references: [id])
+  remarks Remark[]
+}
+
+model Remark {
+  id    Int     @id @default(autoincrement())
+  studentId Int 
+  student Student @relation(fields: [studentId], references: [id])
+  content   String
+  createdAt DateTime @default(now())
+  personInCharge  String
+}
